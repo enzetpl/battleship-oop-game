@@ -1,4 +1,4 @@
-package model;
+package pl.pussy.battleshipgame.model;
 
 import lombok.Getter;
 
@@ -9,9 +9,8 @@ import java.util.List;
 public class Board {
 
     private static final int BOARD_SIZE = 10;
-    List<Ship> ships;
 
-
+    private List<Ship> ships;
     private BoardCell [][] boardCells;
 
     public BoardCell getCell(Coordinates coordinates) {
@@ -27,7 +26,36 @@ public class Board {
         this.ships = initializeShips();
         initializeBoardByEmptyCells();
     }
+    public void addShip(Coordinates coordinates, Ship ship) {
+        if(!ships.contains(ship)) {
+            if(isPossibleToPutShipOnCoordinates(ship, coordinates)){
+                addShipToBoard(coordinates, ship);
+            }
+        }
+    }
 
+    public boolean isPossibleToPutShipOnCoordinates(Ship ship, Coordinates coordinates){
+        int startRow = coordinates.getRow();
+        int startCol = coordinates.getCol();
+        int shipSize = ship.getType().getSize();
+        if(coordinates.getDirection()==Direction.HORRIZONTALLY) {
+            for (int i = startCol; i < startCol+shipSize; i++) {
+                if(boardCells[startRow][i]!=BoardCell.EMPTY)
+                    return false;
+            }
+            return true;
+        }
+        if(coordinates.getDirection()==Direction.VERTICALLY) {
+            for (int i = startRow; i < startRow+shipSize; i++) {
+                if(boardCells[i][startRow]!=BoardCell.EMPTY)
+                    return false;
+            }
+            return true;
+        }
+        return true;
+    }
+    
+    
     private void initializeBoardByEmptyCells() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -40,14 +68,7 @@ public class Board {
 
         return ships;
     }
-    public void addShip(Coordinates coordinates, Ship ship) {
-        if(!ships.contains(ship)) {
-            if(areCoordinatesCorrect(coordinates, ship.getType().getSize())){
-                addShipToBoard(coordinates, ship);
-            }
 
-        }
-    }
 
     private void addShipToBoard(Coordinates coordinates, Ship ship) {
         if(coordinates.getDirection().equals(Direction.HORRIZONTALLY)){
@@ -73,7 +94,4 @@ public class Board {
         }
     }
 
-    private boolean areCoordinatesCorrect(Coordinates coordinates, int size) {
-        return true;
-    }
 }

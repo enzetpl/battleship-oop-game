@@ -1,6 +1,5 @@
-package model;
+package pl.pussy.battleshipgame.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +14,9 @@ public class Coordinates {
         this.row = row;
         this.col = col;
         this.direction = Direction.NONE;
+    }
+
+    public Coordinates() {
     }
 
     public Coordinates(int row, int col, Direction direction) {

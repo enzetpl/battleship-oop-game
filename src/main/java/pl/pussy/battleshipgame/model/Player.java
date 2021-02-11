@@ -1,12 +1,14 @@
-package model;
+package pl.pussy.battleshipgame.model;
 
-import java.util.Set;
+import lombok.Getter;
 
+@Getter
 public class Player {
 
     private Board board;
 
     public Player() {
+        board = new Board();
     }
 
     public Result attack(){

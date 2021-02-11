@@ -1,4 +1,4 @@
-package model;
+package pl.pussy.battleshipgame.model;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package service;
+package pl.pussy.battleshipgame.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,5 @@
-package model;
+package pl.pussy.battleshipgame.model;
+
 
 
 import org.junit.jupiter.api.Test;
@@ -23,14 +24,25 @@ class BoardTest {
     void addShipDestroyer(){
         //given
         Coordinates coordinates = new Coordinates(0,0, Direction.HORRIZONTALLY);
-        Ship ship = new Ship(ShipType.DESTOYER);
+        Ship ship = new Ship(ShipType.DESTROYER);
         //when
-        BoardCell[][] cells = board.getBoardCells();
+
+        BoardCell[][] cells = initializeBoardByEmptyCells();
         cells[0][0] = BoardCell.SHIP;
         cells[0][1] = BoardCell.SHIP;
         board.addShip(coordinates, ship);
         //then
         assertArrayEquals(cells, board.getBoardCells());
-   }
+    }
 
+
+    private BoardCell[][] initializeBoardByEmptyCells() {
+        BoardCell[][] boardCells = new BoardCell[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                boardCells[i][j] = BoardCell.EMPTY;
+            }
+        }
+        return boardCells;
+    }
 }
