@@ -7,6 +7,7 @@ import pl.pussy.battleshipgame.model.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,7 +31,6 @@ public class GameServiceImpl implements GameService {
             humanPlayer.addShip(c, shipMap.get(c));
         }
         addComputerShips(List.copyOf(shipMap.values()));
-        System.out.println(Arrays.deepToString(humanPlayer.getBoard().getBoardCells()));
     }
 
     private Map<Coordinates, Ship> convertCoordinatesShipDtoToMap(List<CoordinatesShipTypeDTO> dtos) {
@@ -52,4 +52,31 @@ public class GameServiceImpl implements GameService {
     }
 
 
+    public Result attack(Coordinates coordinates) {
+       return humanPlayer.attack(coordinates, computerPlayer.getBoard());
+    }
+
+    public Result compterAttack() {
+        Result result;
+        do {
+            int row = new Random().nextInt(10);
+            int col = new Random().nextInt(10);
+            Coordinates coordinates = new Coordinates(row, col);
+            result = computerPlayer.attack(coordinates, humanPlayer.getBoard());
+        }while (result == Result.BAD_COORDINATES);
+        return result;
+    }
+
+    public Board getPlayerBoard() {
+        return humanPlayer.getBoard();
+    }
+
+    public Board getComputerBoard() {
+        Board board = new Board(computerPlayer.getBoard());
+        return new BoardWithHiddenShips(board).getBoard();
+    }
+
+    public Board getComputerBoardWithShips() {
+        return computerPlayer.getBoard();
+    }
 }

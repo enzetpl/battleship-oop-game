@@ -3,6 +3,7 @@ package pl.pussy.battleshipgame.model;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,11 @@ public class Board {
 
     public BoardCell setCell(Coordinates coordinates, BoardCell cell) {
         return boardCells[coordinates.getRow()][coordinates.getCol()] = cell;
+    }
+
+    public  Board(Board another) {
+        this.boardCells = another.boardCells;
+        this.ships = another.ships;
     }
 
     public Board() {
@@ -47,7 +53,7 @@ public class Board {
         }
         if(coordinates.getDirection()==Direction.VERTICALLY) {
             for (int i = startRow; i < startRow+shipSize; i++) {
-                if(boardCells[i][startRow]!=BoardCell.EMPTY)
+                if(boardCells[i][startCol]!=BoardCell.EMPTY)
                     return false;
             }
             return true;
@@ -94,4 +100,17 @@ public class Board {
         }
     }
 
+    public Result checkIfWin(Coordinates coordinates, Board oppositePlayerBoard) {
+        boolean isLeftAnyShip = false;
+        for (BoardCell[] cells:
+             boardCells) {
+            if (Arrays.asList(cells).contains(BoardCell.SHIP)) {
+                isLeftAnyShip = true;
+                break;
+            }
+        }
+        if(!isLeftAnyShip)
+            return Result.END_GAME;
+        return Result.HITTED;
+    }
 }
